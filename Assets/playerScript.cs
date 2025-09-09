@@ -10,6 +10,8 @@ public class playerScript : MonoBehaviour
 
     private bool isDragging = false;
     private float offsetX; // The offset between touch position and object's X position
+    public float dragForce = 10f; // The strength of the force applied. Tune this!
+    private float targetX; // The X we want the object to move towards
     // Start is called before the first frame update
     void Start()
     {
@@ -27,16 +29,12 @@ public class playerScript : MonoBehaviour
                 switch (currentTouch.phase) 
                 {
                     case TouchPhase.Began:
-                        if (IsTouchOnObject(touchPosWorld))
-                        // checks if the player is touching the GO attached to this script
-                        {
-                            isDragging = true;
-                            offsetX = touchPosWorld.x - transform.position.x;
-                        }
+                    //    if (IsTouchOnObject(touchPosWorld))
+                    // checks if the player is touching the GO attached to this script
+                        isDragging = true;                        
                         break;
                         case TouchPhase.Moved:
-                        if (isDragging) transform.position = new Vector3(touchPosWorld.x - offsetX, 
-                            transform.position.y, transform.position.z);
+                        if (isDragging) targetX = touchPosWorld.x; 
                         break;
                         case TouchPhase.Ended:
                         case TouchPhase.Canceled:
@@ -44,6 +42,17 @@ public class playerScript : MonoBehaviour
                         break;
                 }
             }
+        }
+    }
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 4);
+        if (isDragging)
+        {
+            float direction = targetX - transform.position.x;
+            // if the targeX value is -10 and the position of the object is 8
+            // (-10) - (+8) = it will trigger a strong force to the left of 180 units (-18)
+            rb.AddForce(Vector2.right * direction * dragForce);
         }
     }
     private bool IsTouchOnObject(Vector3 touchPosition)
