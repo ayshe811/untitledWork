@@ -6,7 +6,7 @@ public class playerScript : MonoBehaviour
 {
     public GameObject platform, bullet;
     Rigidbody2D rb;
-    [SerializeField] float jumpforce;
+    [SerializeField] float jumpforce, riseForce;
 
     private bool isDragging = false;
     private float offsetX; // The offset between touch position and object's X position
@@ -31,13 +31,14 @@ public class playerScript : MonoBehaviour
                     case TouchPhase.Began:
                     //    if (IsTouchOnObject(touchPosWorld))
                     // checks if the player is touching the GO attached to this script
-                        isDragging = true;                        
+                        isDragging = true;
                         break;
                         case TouchPhase.Moved:
-                        if (isDragging) targetX = touchPosWorld.x; 
+                        case TouchPhase.Stationary:
+                        if (isDragging) targetX = touchPosWorld.x;
                         break;
-                        case TouchPhase.Ended:
-                        case TouchPhase.Canceled:
+                    case TouchPhase.Ended:
+                    case TouchPhase.Canceled:
                         isDragging = false;
                         break;
                 }
@@ -46,13 +47,14 @@ public class playerScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(rb.velocity.x, 4);
+        //rb.velocity = new Vector2(rb.velocity.x, 4);
         if (isDragging)
         {
             float direction = targetX - transform.position.x;
             // if the targeX value is -10 and the position of the object is 8
             // (-10) - (+8) = it will trigger a strong force to the left of 180 units (-18)
             rb.AddForce(Vector2.right * direction * dragForce);
+            rb.velocity = new Vector2(rb.velocity.x, 4);
         }
     }
     private bool IsTouchOnObject(Vector3 touchPosition)
