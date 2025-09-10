@@ -167,13 +167,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563117552a9548f43bad0ac81bbbb661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testers: {fileID: 4673439026284275882, guid: 748d68ec96795de4ca431b15de7eb3be, type: 3}
   ruinPrefabs:
   - {fileID: 6132690697470660572, guid: e78718add115093458188934694f3524, type: 3}
   - {fileID: 1215610680237395390, guid: d2d478b6ae7ca894090cca77bb13611f, type: 3}
   - {fileID: 7565257317085415235, guid: 2116ae4473bb89f43ac60a5c7a0d3acc, type: 3}
   spawnRate: 2
-  scrollSpeed: 3
+  activeRuins: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: UNITY REMOTE IS NOT FUCKING WORKING
+  m_text: unity remote is still not working
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
