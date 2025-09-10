@@ -168,6 +168,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testers: {fileID: 4673439026284275882, guid: 748d68ec96795de4ca431b15de7eb3be, type: 3}
+  ruinPrefabs:
+  - {fileID: 6132690697470660572, guid: e78718add115093458188934694f3524, type: 3}
+  - {fileID: 1215610680237395390, guid: d2d478b6ae7ca894090cca77bb13611f, type: 3}
+  - {fileID: 7565257317085415235, guid: 2116ae4473bb89f43ac60a5c7a0d3acc, type: 3}
+  spawnRate: 2
+  scrollSpeed: 3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +256,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.06836494, g: 0.3018868, b: 0.028005205, a: 0}
+  m_BackGroundColor: {r: 0.09001811, g: 0.0837684, b: 0.27044016, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
