@@ -9,7 +9,7 @@ public class playerScript : MonoBehaviour
     [SerializeField] float jumpforce, riseForce;
 
     private bool isDragging = false;
-    private float offsetX; // The offset between touch position and object's X position
+    [SerializeField] float maxX, minX; // The offset between touch position and object's X position
     public float dragForce = 10f; // The strength of the force applied. Tune this!
     private float targetX; // The X we want the object to move towards
     // Start is called before the first frame update
@@ -29,12 +29,10 @@ public class playerScript : MonoBehaviour
                 switch (currentTouch.phase) 
                 {
                     case TouchPhase.Began:
-                    //    if (IsTouchOnObject(touchPosWorld))
-                    // checks if the player is touching the GO attached to this script
                         isDragging = true;
                         break;
-                        case TouchPhase.Moved:
-                        case TouchPhase.Stationary:
+                    case TouchPhase.Moved:
+                    case TouchPhase.Stationary:
                         if (isDragging) targetX = touchPosWorld.x;
                         break;
                     case TouchPhase.Ended:
@@ -47,13 +45,19 @@ public class playerScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //rb.velocity = new Vector2(rb.velocity.x, 4);
         if (isDragging)
         {
-            float direction = targetX - transform.position.x;
+            float direction = targetX - transform.position.x; // calculates the distance between the targetX and the player's X. 
+
             // if the targeX value is -10 and the position of the object is 8
             // (-10) - (+8) = it will trigger a strong force to the left of 180 units (-18)
-            rb.AddForce(Vector2.right * direction * dragForce);
+
+            bool canMoveRight = (direction > 0 && transform.position.x < maxX);
+            bool canMoveLeft = (direction < 0 && transform.position.x > minX);
+          
+            if (canMoveLeft || canMoveRight) rb.AddForce(Vector2.right * direction * dragForce);
+            else rb.velocity = new Vector2(0, rb.velocity.y); // velocity in this context is a handbrake; instant command to stop immediately. 
+
             rb.velocity = new Vector2(rb.velocity.x, 4);
         }
     }

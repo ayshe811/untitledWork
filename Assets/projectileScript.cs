@@ -9,13 +9,12 @@ public class projectileScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.isKinematic = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = transform.up * 10;
-        Destroy(gameObject, 2);
+        //rb.velocity = transform.up * 10;
+        //Destroy(gameObject, 2);
     }
 }
