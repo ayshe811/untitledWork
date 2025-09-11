@@ -6,16 +6,19 @@ public class playerScript : MonoBehaviour
 {
     public GameObject platform, bullet;
     Rigidbody2D rb;
-    [SerializeField] float jumpforce, riseForce;
 
     private bool isDragging = false;
     [SerializeField] float maxX, minX; // The offset between touch position and object's X position
-    public float dragForce = 10f; // The strength of the force applied. Tune this!
-    private float targetX; // The X we want the object to move towards
+    [SerializeField] float dragForce, upwardForce;
+    private float targetX; 
+
+    TrailRenderer trailRenderer;    
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer.emitting = false;
     }
     void Update()
     {
@@ -42,6 +45,9 @@ public class playerScript : MonoBehaviour
                 }
             }
         }
+
+        if (isDragging && rb.velocity.y > .1f) trailRenderer.emitting = true;
+        else trailRenderer.emitting = false;
     }
     private void FixedUpdate()
     {
@@ -58,7 +64,7 @@ public class playerScript : MonoBehaviour
             if (canMoveLeft || canMoveRight) rb.AddForce(Vector2.right * direction * dragForce);
             else rb.velocity = new Vector2(0, rb.velocity.y); // velocity in this context is a handbrake; instant command to stop immediately. 
 
-            rb.velocity = new Vector2(rb.velocity.x, 4);
+            rb.velocity = new Vector2(rb.velocity.x, upwardForce);
         }
     }
     private bool IsTouchOnObject(Vector3 touchPosition)
@@ -68,13 +74,5 @@ public class playerScript : MonoBehaviour
         if (hitCollider != null && hitCollider.gameObject == gameObject) return true;  // if there is a collider attached to the GO && 
         // the collider at the touch position is the collider of the GO attached to this script, it returns a true value to the place where the method is called. 
         return false;
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("platform"))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpforce);
-            Debug.Log("New Y Velocity: " + rb.velocity.y);
-        }
     }
 }
