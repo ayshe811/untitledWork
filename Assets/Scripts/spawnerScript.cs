@@ -5,6 +5,8 @@ using UnityEngine;
 public class spawnerScript : MonoBehaviour
 {
     public GameObject[] ruinPrefabs;
+    public GameObject player;
+    public colourRuinScript colourRuin;
 
     public float spawnRate = 2f;
     private float nextSpawnTime = 0f;
@@ -12,15 +14,9 @@ public class spawnerScript : MonoBehaviour
     public List<GameObject> activeRuins = new List<GameObject>();
 
     Vector2 xPosition;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        transform.position = new Vector2(0, player.transform.position.y + 12);
         xPosition = transform.position;
         if (Time.time >= nextSpawnTime)
         {
@@ -37,7 +33,6 @@ public class spawnerScript : MonoBehaviour
             }
         }
     }
-
     void SpawnRuin()
     {
         int randomIndex = Random.Range(0, ruinPrefabs.Length);

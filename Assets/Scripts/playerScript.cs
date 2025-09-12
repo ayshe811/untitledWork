@@ -10,7 +10,8 @@ public class playerScript : MonoBehaviour
     private bool isDragging = false;
     [SerializeField] float maxX, minX; // The offset between touch position and object's X position
     [SerializeField] float dragForce, upwardForce;
-    private float targetX; 
+    private float targetX;
+    private SpriteRenderer playerSprite;
 
     TrailRenderer trailRenderer;    
     // Start is called before the first frame update
@@ -18,6 +19,7 @@ public class playerScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         trailRenderer = GetComponent<TrailRenderer>();
+        playerSprite = GetComponent<SpriteRenderer>();
         trailRenderer.emitting = false;
     }
     void Update()
@@ -48,6 +50,8 @@ public class playerScript : MonoBehaviour
 
         if (isDragging && rb.velocity.y > .1f) trailRenderer.emitting = true;
         else trailRenderer.emitting = false;
+
+        trailRenderer.startColor = playerSprite.color;
     }
     private void FixedUpdate()
     {
