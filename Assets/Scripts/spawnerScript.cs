@@ -7,6 +7,7 @@ public class spawnerScript : MonoBehaviour
     public GameObject[] ruinPrefabs;
     public GameObject player;
     public colourRuinScript colourRuin;
+    public GameObject trigger;
 
     public float spawnRate = 2f;
     private float nextSpawnTime = 0f;
@@ -41,7 +42,26 @@ public class spawnerScript : MonoBehaviour
         Vector2 spawnPosition = new Vector2(randomX, transform.position.y);
         GameObject newRuin = Instantiate(ruinPrefabs[randomIndex], 
             spawnPosition, Quaternion.identity);
+        GameObject detector = Instantiate(trigger, spawnPosition, Quaternion.identity);
 
         activeRuins.Add(newRuin);
+
+        StartCoroutine(MakeDetectorFollowRuin(detector, newRuin));
+    }
+
+    IEnumerator MakeDetectorFollowRuin(GameObject detector, GameObject ruin)
+    {
+        while (ruin != null && detector != null)
+        {
+            Vector3 newDetectorPos = new Vector2(
+                ruin.transform.position.x,
+                ruin.transform.position.y + .6f
+            );
+            detector.transform.position = newDetectorPos;
+            yield return null;
+        }
+
+        if (detector != null)
+            Destroy(detector);
     }
 }

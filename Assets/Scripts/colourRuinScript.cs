@@ -8,6 +8,8 @@ public class colourRuinScript : MonoBehaviour
     private Color ruinColour;
     private spawnerScript spawner;
     private playerColourScript playerColour;
+    public GameObject trigger;
+    Vector2 triggerPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +20,7 @@ public class colourRuinScript : MonoBehaviour
         ruinColour = colourManagerScript.Instance.GetRandomColor();
         ruinSprite.color = ruinColour;
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
@@ -30,7 +31,7 @@ public class colourRuinScript : MonoBehaviour
 
             Debug.Log("Comparing Ruin color: " + ruinSprite.color);
             Debug.Log("With Player sprite color: " + playerSprite.color);
-          //  Debug.Log("With Player logical color (CurrentColour): " + playerColor.CurrentColour);
+            //  Debug.Log("With Player logical color (CurrentColour): " + playerColor.CurrentColour);
 
             if (ruinSprite.color == playerSprite.color)
             {
@@ -40,6 +41,8 @@ public class colourRuinScript : MonoBehaviour
                 if (spawner != null) spawner.activeRuins.Remove(this.gameObject);
                 Destroy(gameObject);
             }
+
+            Destroy(gameObject);
         }
     }
 }
