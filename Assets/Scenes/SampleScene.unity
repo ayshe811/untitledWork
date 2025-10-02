@@ -173,7 +173,7 @@ MonoBehaviour:
   - {fileID: 7565257317085415235, guid: 2116ae4473bb89f43ac60a5c7a0d3acc, type: 3}
   player: {fileID: 1876311902}
   colourRuin: {fileID: 0}
-  spawnRate: 2
+  spawnRate: 1
   activeRuins: []
 --- !u!1 &519420028
 GameObject:

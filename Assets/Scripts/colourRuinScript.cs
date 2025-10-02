@@ -7,10 +7,12 @@ public class colourRuinScript : MonoBehaviour
     private SpriteRenderer ruinSprite;
     private Color ruinColour;
     private spawnerScript spawner;
+    private playerColourScript playerColour;
     // Start is called before the first frame update
     void Start()
     {
         spawner = FindObjectOfType<spawnerScript>();
+        playerColour = FindObjectOfType<playerColourScript>();
 
         ruinSprite = GetComponent<SpriteRenderer>();
         ruinColour = colourManagerScript.Instance.GetRandomColor();
