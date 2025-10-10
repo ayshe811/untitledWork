@@ -71,12 +71,4 @@ public class playerScript : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, upwardForce);
         }
     }
-    private bool IsTouchOnObject(Vector3 touchPosition)
-    {
-        // For 2D Physics: Check if there's a Collider2D at the touch position
-        Collider2D hitCollider = Physics2D.OverlapPoint(touchPosition);
-        if (hitCollider != null && hitCollider.gameObject == gameObject) return true;  // if there is a collider attached to the GO && 
-        // the collider at the touch position is the collider of the GO attached to this script, it returns a true value to the place where the method is called. 
-        return false;
-    }
 }

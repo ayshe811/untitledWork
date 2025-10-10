@@ -24,14 +24,9 @@ public class colourRuinScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //Debug.Log("collided with player!");
-
             playerColourScript playerColor = collision.gameObject.GetComponent<playerColourScript>();
             SpriteRenderer playerSprite = playerColor.GetComponent<SpriteRenderer>();
-
-            Debug.Log("Comparing Ruin color: " + ruinSprite.color);
-            Debug.Log("With Player sprite color: " + playerSprite.color);
-            //  Debug.Log("With Player logical color (CurrentColour): " + playerColor.CurrentColour);
+            abilityManagerScript playerAbility = FindObjectOfType<abilityManagerScript>();
 
             if (ruinSprite.color == playerSprite.color)
             {
@@ -41,7 +36,7 @@ public class colourRuinScript : MonoBehaviour
                 if (spawner != null) spawner.activeRuins.Remove(this.gameObject);
                 Destroy(gameObject);
             }
-
+            else playerAbility.currentCharge = 0;
             Destroy(gameObject);
         }
     }

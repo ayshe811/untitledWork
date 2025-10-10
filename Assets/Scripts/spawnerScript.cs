@@ -43,7 +43,6 @@ public class spawnerScript : MonoBehaviour
         GameObject newRuin = Instantiate(ruinPrefabs[randomIndex], 
             spawnPosition, Quaternion.identity);
         GameObject detector = Instantiate(trigger, spawnPosition, Quaternion.identity);
-
         activeRuins.Add(newRuin);
 
         StartCoroutine(MakeDetectorFollowRuin(detector, newRuin));

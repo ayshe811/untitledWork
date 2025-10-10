@@ -29,6 +29,8 @@ public class playerColourScript : MonoBehaviour
     public void OnCorrectCollision()
     {
         setRandomColour();
+        abilityManagerScript playerAbility = FindObjectOfType<abilityManagerScript>();
+        if (playerAbility != null) playerAbility.AddCharge(25f);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
