@@ -8,6 +8,7 @@ public class playerColourScript : MonoBehaviour
     public Color[] availableColors; 
     private int currentColorIndex = 0;
     public SpriteRenderer playerSprite;
+    public abilityManagerScript abilityScript;
 
     public Color CurrentColour => availableColors[currentColorIndex];
     void Start()
@@ -28,12 +29,17 @@ public class playerColourScript : MonoBehaviour
 
     public void OnCorrectCollision()
     {
-        setRandomColour();
-        abilityManagerScript playerAbility = FindObjectOfType<abilityManagerScript>();
-        if (playerAbility != null) playerAbility.AddCharge(25f);
+        if (!abilityScript.universalColor.isActive) setRandomColour();
+        else playerSprite.color = Color.white;
+        //abilityManagerScript playerAbility = FindObjectOfType<abilityManagerScript>();
+        if (abilityScript != null 
+           && !abilityScript.universalColor.isActive
+           && !abilityScript.timeSlow.isActive
+           && !abilityScript.indicator.isActive
+           && !abilityScript.magnetField.isActive) abilityScript.AddCharge(25f);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "trigger") setRandomColour();
+        if (collision.gameObject.tag == "trigger" && !abilityScript.universalColor.isActive) setRandomColour();
     }
 }

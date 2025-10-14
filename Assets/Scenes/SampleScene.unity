@@ -1436,6 +1436,7 @@ MonoBehaviour:
   - {r: 0.9607843, g: 0.5333334, b: 0, a: 1}
   - {r: 0.96817005, g: 1, b: 0, a: 1}
   playerSprite: {fileID: 0}
+  abilityScript: {fileID: 1894174673}
 --- !u!1 &1894174672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,6 +1480,8 @@ MonoBehaviour:
     duration: 7
   currentCharge: 0
   maxCharge: 100
+  originalRuinColors: []
+  player: {fileID: 1876311902}
 --- !u!4 &1894174674
 Transform:
   m_ObjectHideFlags: 0

@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class colourRuinScript : MonoBehaviour
 {
-    private SpriteRenderer ruinSprite;
-    private Color ruinColour;
+    private SpriteRenderer ruinSprite, playerSprite;
     private spawnerScript spawner;
     private playerColourScript playerColour;
+    private abilityManagerScript abilityScript;
+
     public GameObject trigger;
+    private GameObject player;
     Vector2 triggerPosition;
+
     // Start is called before the first frame update
     void Start()
     {
+        abilityScript = FindObjectOfType<abilityManagerScript>();
         spawner = FindObjectOfType<spawnerScript>();
         playerColour = FindObjectOfType<playerColourScript>();
 
         ruinSprite = GetComponent<SpriteRenderer>();
-        ruinColour = colourManagerScript.Instance.GetRandomColor();
-        ruinSprite.color = ruinColour;
+        player = GameObject.Find("player");
+        playerSprite = player.GetComponent<SpriteRenderer>();
+
+        if (!abilityScript.universalColor.isActive) ruinSprite.color = colourManagerScript.Instance.GetRandomColor();
+        else ruinSprite.color = playerSprite.color;
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
