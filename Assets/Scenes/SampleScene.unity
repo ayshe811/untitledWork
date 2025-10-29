@@ -1475,13 +1475,15 @@ MonoBehaviour:
   indicator:
     isActive: 0
     duration: 4
-  magnetField:
+  repelField:
     isActive: 0
     duration: 7
-  currentCharge: 0
+  currentCharge: 75
   maxCharge: 100
   originalRuinColors: []
   player: {fileID: 1876311902}
+  repelRadius: 2
+  repelForce: 25
 --- !u!4 &1894174674
 Transform:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ public class spawnerScript : MonoBehaviour
     void SpawnRuin()
     {
         int randomIndex = Random.Range(0, ruinPrefabs.Length);
-        float randomX = Random.Range(xPosition.x - 2f, xPosition.x + 2f);
+        float randomX = Random.Range(xPosition.x - 1.5f, xPosition.x + 1.5f);
 
         Vector2 spawnPosition = new Vector2(randomX, transform.position.y);
         GameObject newRuin = Instantiate(ruinPrefabs[randomIndex], 

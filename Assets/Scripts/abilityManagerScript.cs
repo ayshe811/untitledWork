@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 
 public class abilityManagerScript : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class abilityManagerScript : MonoBehaviour
     public Ability universalColor;
     public Ability timeSlow;
     public Ability indicator;
-    public Ability magnetField;
+    public Ability repelField;
 
     [Header("Shared Charge System")]
     public float currentCharge = 0f;
@@ -27,6 +29,10 @@ public class abilityManagerScript : MonoBehaviour
     public GameObject player;
     Color originalPlayerColour;
     bool originalPlayerColourStored = false;
+
+    [SerializeField] float repelRadius, repelForce;
+
+
     private void Start()
     {
         ruinSpawner = FindObjectOfType<spawnerScript>();
@@ -37,7 +43,8 @@ public class abilityManagerScript : MonoBehaviour
 
         if (currentCharge >= maxCharge)
         {
-            TriggerRandomAbility();
+            //TriggerRandomAbility();
+            StartCoroutine(ActivateMagnetField());  
             currentCharge = 0;
         }
     }
@@ -74,6 +81,55 @@ public class abilityManagerScript : MonoBehaviour
                     ruinSprite.color = playerColour;
                 }
             }
+        }
+    }
+
+    void repelInfinity()
+    {
+        Collider2D[] ruinsinRadius = Physics2D.OverlapCircleAll(player.transform.position, repelRadius);
+        SpriteRenderer playerSprite = player.GetComponent<SpriteRenderer>();
+
+        foreach(Collider2D ruinCollider in ruinsinRadius)
+        {
+            if (ruinCollider == null) continue; 
+            Debug.Log($"Collider: {ruinCollider.gameObject.name}, Tag: {ruinCollider.tag}");
+            if (ruinCollider.CompareTag("Ruins"))
+            {
+                Rigidbody2D ruinRb = ruinCollider.attachedRigidbody;
+                SpriteRenderer ruinSprite = ruinCollider.GetComponent<SpriteRenderer>();
+
+                if (ruinRb != null && ruinSprite != null && ruinSprite.color != playerSprite.color)
+                {
+                    ApplyIninity(ruinRb, ruinCollider.transform.position);
+                }
+                else if (ruinRb == null) Debug.LogWarning($"No attached Rigidbody2D found on ruin: {ruinCollider.gameObject.name}");
+            }
+        }
+    }
+
+    private void ApplyIninity(Rigidbody2D ruinRb, Vector3 ruinPosition)
+    {
+        Vector2 toRuin = ruinPosition - player.transform.position;
+        Vector2 repelDirection;
+
+        if (toRuin.x > 0) repelDirection = Vector2.right;
+        else if (toRuin.x < 0)repelDirection = Vector2.left;
+        else repelDirection = Random.Range(0, 2) == 0 ? Vector2.left : Vector2.right;
+
+        //Debug.Log($"Applying force to {ruinRb.gameObject.name}");
+        //Debug.Log($"Force: {repelDirection * repelForce}");
+        //Debug.Log($"Ruin velocity before: {ruinRb.velocity}");
+        //Debug.Log($"Ruin position: {ruinPosition}");
+        //Debug.Log($"Player position: {player.transform.position}");
+
+        ruinRb.AddForce(repelDirection * repelForce, ForceMode2D.Force);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        if (repelField.isActive && player != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(player.transform.position, repelRadius);
         }
     }
     void RestoreRuinColors()
@@ -166,13 +222,18 @@ public class abilityManagerScript : MonoBehaviour
     }
     IEnumerator ActivateMagnetField()
     {
-        magnetField.isActive = true;
+        repelField.isActive = true;
         Debug.Log("MAGNET FIELD ACTIVATED! Collecting oxygen for " + 
-            magnetField.duration + " seconds!");
+            repelField.duration + " seconds!");
 
-        yield return new WaitForSeconds(magnetField.duration);
+        float endTime = Time.time + repelField.duration;
+        while(Time.time < endTime)
+        {
+            repelInfinity();
+            yield return null;
+        }
 
-        magnetField.isActive = false;
+        repelField.isActive = false;
         Debug.Log("Magnet Field ended");
     }
 }

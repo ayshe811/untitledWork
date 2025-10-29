@@ -36,7 +36,7 @@ public class playerColourScript : MonoBehaviour
            && !abilityScript.universalColor.isActive
            && !abilityScript.timeSlow.isActive
            && !abilityScript.indicator.isActive
-           && !abilityScript.magnetField.isActive) abilityScript.AddCharge(25f);
+           && !abilityScript.repelField.isActive) abilityScript.AddCharge(25f);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

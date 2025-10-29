@@ -42,9 +42,14 @@ public class colourRuinScript : MonoBehaviour
 
                 playerColor.OnCorrectCollision();
                 if (spawner != null) spawner.activeRuins.Remove(this.gameObject);
-                Destroy(gameObject);
             }
-            else playerAbility.currentCharge = 0;
+            else
+            {
+                Debug.Log("collided with inocrrect colour!");
+
+                playerAbility.currentCharge = 0;
+                if (spawner != null) spawner.activeRuins.Remove(this.gameObject);
+            }
             Destroy(gameObject);
         }
     }
