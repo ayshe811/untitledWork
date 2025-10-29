@@ -13,7 +13,8 @@ public class playerScript : MonoBehaviour
     private float targetX;
     private SpriteRenderer playerSprite;
 
-    TrailRenderer trailRenderer;    
+    TrailRenderer trailRenderer;
+    gameManager gmScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +22,13 @@ public class playerScript : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         playerSprite = GetComponent<SpriteRenderer>();
         trailRenderer.emitting = false;
+        gmScript = GameObject.Find("Game Manager").GetComponent<gameManager>();
     }
     void Update()
     {
         if (Input.touchCount > 0)
         {
+            gmScript.state = gameManager.gameState.play;
             for (int i = 0;  i < Input.touchCount; i++)
             {
                 Touch currentTouch = Input.GetTouch(i);

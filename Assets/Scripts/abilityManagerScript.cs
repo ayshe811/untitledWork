@@ -6,6 +6,8 @@ using UnityEngine.Rendering.UI;
 
 public class abilityManagerScript : MonoBehaviour
 {
+    private spawnerScript ruinSpawner;
+    public GameObject player;
     [System.Serializable]
     public class Ability
     {
@@ -14,25 +16,24 @@ public class abilityManagerScript : MonoBehaviour
     }
 
     public Ability universalColor;
+    
+    [Header("Universal Colour Variables")]
+    public List<Color> originalRuinColors = new List<Color>();
+    private List<GameObject> affectedRuins = new List<GameObject>();
+    Color originalPlayerColour;
+    bool originalPlayerColourStored = false;
+
     public Ability timeSlow;
     public Ability indicator;
     public Ability repelField;
 
+    [Header("Repel Field Variables")]
+    public float repelRadius;
+    public float repelForce;
+
     [Header("Shared Charge System")]
     public float currentCharge = 0f;
     public float maxCharge = 100f;
-
-    private spawnerScript ruinSpawner;
-    public List<Color> originalRuinColors = new List<Color>();
-    private List<GameObject> affectedRuins = new List<GameObject>();
-
-    public GameObject player;
-    Color originalPlayerColour;
-    bool originalPlayerColourStored = false;
-
-    [SerializeField] float repelRadius, repelForce;
-
-
     private void Start()
     {
         ruinSpawner = FindObjectOfType<spawnerScript>();

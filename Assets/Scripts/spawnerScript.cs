@@ -11,15 +11,20 @@ public class spawnerScript : MonoBehaviour
 
     public float spawnRate = 2f;
     private float nextSpawnTime = 0f;
+    gameManager gmScirpt;
 
     public List<GameObject> activeRuins = new List<GameObject>();
 
     Vector2 xPosition;
+    private void Start()
+    {
+        gmScirpt = GameObject.Find("Game Manager").GetComponent<gameManager>();
+    }
     void Update()
     {
         transform.position = new Vector2(0, player.transform.position.y + 12);
         xPosition = transform.position;
-        if (Time.time >= nextSpawnTime)
+        if (Time.time >= nextSpawnTime && gmScirpt.state == gameManager.gameState.play)
         {
             SpawnRuin();
             nextSpawnTime = Time.time + spawnRate;
